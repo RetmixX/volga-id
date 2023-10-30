@@ -10,8 +10,6 @@ import com.retmix.volga.transport.repositories.TransportRepository;
 import com.retmix.volga.transport.repositories.TypeTransportRepository;
 import com.retmix.volga.transport.services.TransportService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +33,7 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     public TransportDTO store(UpsertTransportDTO data) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findUserByUsername(auth.getName()).orElseThrow();
+        User user = userRepository.findAll().get(0);
         Transport transport = Transport.builder()
                 .canRented(data.canBeRented())
                 .type(typeTransportRepository.findTypeTransportByType(data.transportType()).orElseThrow())
@@ -55,7 +52,7 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     public TransportDTO update(UpsertTransportDTO data, Long id) {
-        Transport transport = repositoryTransport.findTransportById(id).orElseThrow();
+        Transport transport = repositoryTransport.findAll().get(0);
         transport.setCanRented(data.canBeRented());
         transport.setType(typeTransportRepository.findTypeTransportByType(data.transportType()).orElseThrow());
         transport.setModel(data.model());
@@ -68,5 +65,11 @@ public class TransportServiceImpl implements TransportService {
         transport.setDayPrice(data.dayPrice());
 
         return repositoryTransport.save(transport).toDTO();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Transport transport = repositoryTransport.findTransportById(id).orElseThrow();
+        repositoryTransport.delete(transport);
     }
 }

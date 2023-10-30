@@ -1,8 +1,7 @@
 package com.retmix.volga.shared.models;
 
-import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
+public enum Role {
     ROLE_ADMIN("ROLE_ADMIN"),
     ROLE_USER("ROLE_USER");
 
@@ -14,10 +13,5 @@ public enum Role implements GrantedAuthority {
 
     public String getRoleName() {
         return this.name;
-    }
-
-    @Override
-    public String getAuthority() {
-        return getRoleName();
     }
 }

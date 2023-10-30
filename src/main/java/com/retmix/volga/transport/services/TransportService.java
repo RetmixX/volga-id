@@ -11,4 +11,6 @@ public interface TransportService {
     TransportDTO store(UpsertTransportDTO data);
     TransportDTO update(UpsertTransportDTO data, Long id);
 
+    void delete(Long id);
+
 }

@@ -3,6 +3,7 @@ package com.retmix.volga.transport.controllers;
 import com.retmix.volga.transport.dto.TransportDTO;
 import com.retmix.volga.transport.dto.UpsertTransportDTO;
 import com.retmix.volga.transport.services.TransportService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +27,17 @@ public class TransportController {
         return ResponseEntity.ok(transportService.show(id));
     }
 
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     @PostMapping
     public ResponseEntity<TransportDTO> create(@RequestBody @Valid UpsertTransportDTO data) {
         return ResponseEntity.status(201).body(transportService.store(data));
     }
 
+    @SecurityRequirement(
+            name = "bearerAuth"
+    )
     @PutMapping("/{id}")
     public ResponseEntity<TransportDTO> update(@PathVariable Long id, @RequestBody @Valid UpsertTransportDTO data) {
         return ResponseEntity.ok(transportService.update(data, id));

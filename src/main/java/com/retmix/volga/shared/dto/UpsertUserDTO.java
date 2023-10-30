@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
+public class UpsertUserDTO {
     @NotNull
     @UsernameNotExist
     private String username;

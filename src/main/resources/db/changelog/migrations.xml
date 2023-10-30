@@ -118,12 +118,12 @@
         <insert tableName="users">
             <column name="username" value="retmix"/>
             <column name="password" value="password"/>
-            <column name="role" value="ADMIN"/>
+            <column name="role" value="ROLE_ADMIN"/>
         </insert>
         <insert tableName="users">
             <column name="username" value="user"/>
             <column name="password" value="password"/>
-            <column name="role" value="USER"/>
+            <column name="role" value="ROLE_USER"/>
         </insert>
         <insert tableName="type_transports">
             <column name="type" value="Car"/>
