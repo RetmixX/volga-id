@@ -1,0 +1,138 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="retmix">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="role" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="float" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="type_transports">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="transports">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="can_rented" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transport_type_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identifier" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="latitude" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minute_price" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_price" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="rents">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="transport_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_start" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_end" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price_of_unit" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_type" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="final_price" type="float">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="transports"
+                                 baseColumnNames="transport_type_id"
+                                 constraintName="fk_transports_types"
+                                 referencedTableName="type_transports"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="rents"
+                                 baseColumnNames="transport_id"
+                                 constraintName="fk_rents_transports"
+                                 referencedTableName="transports"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="rents"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_rents_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <insert tableName="users">
+            <column name="username" value="retmix"/>
+            <column name="password" value="password"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="users">
+            <column name="username" value="user"/>
+            <column name="password" value="password"/>
+            <column name="role" value="USER"/>
+        </insert>
+        <insert tableName="type_transports">
+            <column name="type" value="Car"/>
+        </insert>
+        <insert tableName="type_transports">
+            <column name="type" value="Bike"/>
+        </insert>
+        <insert tableName="type_transports">
+            <column name="type" value="Scooter"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
