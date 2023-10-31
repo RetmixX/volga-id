@@ -117,12 +117,12 @@
 
         <insert tableName="users">
             <column name="username" value="retmix"/>
-            <column name="password" value="password"/>
+            <column name="password" value="5f4dcc3b5aa765d61d8327deb882cf99 | eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJVc2VyRFRPKGlkPW51bGwsIHVzZXJuYW1lPXIsIHJvbGU9Uk9MRV9VU0VSKSJ9.mCSg8Ktkb8vlUeGmqVLrSYOrdvecYMbN9_rEbJgJ6aYftP5PYLrWfmmJal-3-vVocuSgFhy4jF4MBHw-StkZ_NvRQnGAEWiLoV33GUJVQn9jMNEuv2jFgaLafQwHL4Re0qj0QI8aQMt8-eMCDmP_uzVIyxNKzproT-gSO6NHOc0"/>
             <column name="role" value="ROLE_ADMIN"/>
         </insert>
         <insert tableName="users">
             <column name="username" value="user"/>
-            <column name="password" value="password"/>
+            <column name="password" value="5f4dcc3b5aa765d61d8327deb882cf99 | eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJVc2VyRFRPKGlkPW51bGwsIHVzZXJuYW1lPXIsIHJvbGU9Uk9MRV9VU0VSKSJ9.mCSg8Ktkb8vlUeGmqVLrSYOrdvecYMbN9_rEbJgJ6aYftP5PYLrWfmmJal-3-vVocuSgFhy4jF4MBHw-StkZ_NvRQnGAEWiLoV33GUJVQn9jMNEuv2jFgaLafQwHL4Re0qj0QI8aQMt8-eMCDmP_uzVIyxNKzproT-gSO6NHOc0"/>
             <column name="role" value="ROLE_USER"/>
         </insert>
         <insert tableName="type_transports">

@@ -1,5 +1,6 @@
 package com.retmix.volga.shared.services;
 
+import com.retmix.volga.shared.dto.MessageDTO;
 import com.retmix.volga.shared.dto.admin.AccountDTO;
 import com.retmix.volga.shared.dto.admin.UpsertAccountDTO;
 import com.retmix.volga.shared.handler.exceptions.ObjectNotFoundException;
@@ -57,6 +58,14 @@ public class AdminAccountService {
 
     public AccountDTO show(Long id) {
         return userRepository.findById(id).map(User::toAccountDTO).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+    public MessageDTO delete(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+
+        userRepository.delete(user);
+        return new MessageDTO("User delete");
     }
 
     public void isAdmin(User user) {

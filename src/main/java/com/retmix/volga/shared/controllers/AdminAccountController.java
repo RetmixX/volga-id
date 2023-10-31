@@ -1,5 +1,6 @@
 package com.retmix.volga.shared.controllers;
 
+import com.retmix.volga.shared.dto.MessageDTO;
 import com.retmix.volga.shared.dto.admin.UpsertAccountDTO;
 import com.retmix.volga.shared.models.Role;
 import com.retmix.volga.shared.models.User;
@@ -43,5 +44,11 @@ public class AdminAccountController {
     public ResponseEntity<?> update(@RequestBody @Valid UpsertAccountDTO data, @PathVariable Long id, @RequestHeader("authorization") String tokenRequest) throws NoSuchAlgorithmException {
         adminAccountService.isAdmin(userService.getUserByToken(tokenRequest));
         return ResponseEntity.ok(adminAccountService.updateAccount(data, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageDTO> delete(@RequestHeader("authorization") String tokenRequest, @PathVariable Long id) {
+        adminAccountService.isAdmin(userService.getUserByToken(tokenRequest));
+        return ResponseEntity.ok(adminAccountService.delete(id));
     }
 }

@@ -26,9 +26,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private double balance;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rent> rents;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transport> transports;
 
     public UserDTO toDTO() {

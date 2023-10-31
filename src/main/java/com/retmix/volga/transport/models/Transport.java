@@ -3,6 +3,7 @@ package com.retmix.volga.transport.models;
 import com.retmix.volga.rent.models.Rent;
 import com.retmix.volga.shared.models.User;
 import com.retmix.volga.transport.dto.TransportDTO;
+import com.retmix.volga.transport.dto.admin.AdminTransportDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,13 +34,13 @@ public class Transport {
     private double minutePrice;
     @Column(name = "day_price")
     private double dayPrice;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transport_type_id")
     private TypeTransport type;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transport")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transport", cascade = CascadeType.ALL)
     private List<Rent> rents;
 
     public TransportDTO toDTO() {
@@ -58,4 +59,20 @@ public class Transport {
 
     }
 
+    public AdminTransportDTO toAdminTransportDTO() {
+        return AdminTransportDTO.builder()
+                .id(id)
+                .canBeRented(canRented)
+                .transportType(type.getType())
+                .model(model)
+                .color(color)
+                .identifier(identifier)
+                .description(description)
+                .latitude(latitude)
+                .longitude(longitude)
+                .minutePrice(minutePrice)
+                .dayPrice(dayPrice)
+                .ownerId(user.getId())
+                .build();
+    }
 }
