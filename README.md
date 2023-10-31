@@ -1,6 +1,6 @@
 # Volga IT
 
 git clone
-cd .deploy/app/
+cd .deploy/dev
 docker compose up -d
 
