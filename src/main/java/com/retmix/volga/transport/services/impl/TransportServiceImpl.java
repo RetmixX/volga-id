@@ -1,5 +1,7 @@
 package com.retmix.volga.transport.services.impl;
 
+import com.retmix.volga.shared.handler.exceptions.ObjectNotFoundException;
+import com.retmix.volga.shared.handler.exceptions.PermissionException;
 import com.retmix.volga.shared.models.User;
 import com.retmix.volga.shared.repositories.UserRepository;
 import com.retmix.volga.transport.dto.TransportDTO;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +35,7 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO store(UpsertTransportDTO data) {
-        User user = userRepository.findAll().get(0);
+    public TransportDTO store(UpsertTransportDTO data, User user) {
         Transport transport = Transport.builder()
                 .canRented(data.canBeRented())
                 .type(typeTransportRepository.findTypeTransportByType(data.transportType()).orElseThrow())
@@ -51,8 +53,12 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public TransportDTO update(UpsertTransportDTO data, Long id) {
-        Transport transport = repositoryTransport.findAll().get(0);
+    public TransportDTO update(UpsertTransportDTO data, Long id, User user) {
+        Transport transport = repositoryTransport.findTransportById(id).orElseThrow(() -> new ObjectNotFoundException("Transport not found"));
+        if (!user.getId().equals(transport.getUser().getId())) {
+            throw new PermissionException("Transport denied");
+        }
+
         transport.setCanRented(data.canBeRented());
         transport.setType(typeTransportRepository.findTypeTransportByType(data.transportType()).orElseThrow());
         transport.setModel(data.model());
@@ -68,8 +74,12 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, User user) {
         Transport transport = repositoryTransport.findTransportById(id).orElseThrow();
+        if (!user.getId().equals(transport.getUser().getId())) {
+            throw new RuntimeException("Transport denied");
+        }
+
         repositoryTransport.delete(transport);
     }
 }

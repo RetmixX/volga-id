@@ -14,4 +14,8 @@ public enum Role {
     public String getRoleName() {
         return this.name;
     }
+
+    public boolean roleType() {
+        return this.name.equals(ROLE_ADMIN.name());
+    }
 }
